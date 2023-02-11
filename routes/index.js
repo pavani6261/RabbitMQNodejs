@@ -1,6 +1,16 @@
 var express = require('express');
 var router = express.Router();
 
+// const {logger} = require('../log4')
+
+var date = new Date();
+console.log(date,"today");
+
+
+const {logger,logfiles} = require('../log4');
+logfiles();
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   console.log("index.js api called");
@@ -9,18 +19,5 @@ router.get('/', function(req, res, next) {
 
 module.exports = router;
 
-// var child = execFile( fileloc, function(error, stdout, stderr) {
-        
-//   if (error) {
-//       throw error;
-//   }
-//   if(stderr){
-//       console.log(`{stderr:${stderr}},stderr from execfile`);
-//       // res.send({ status: stderr });
-//   }
-//   if(stdout){
-//       console.log(`${stdout}`);
-//       console.log(`stdout from execfile`);
-//   }
-  
-// });
+logger.info(process.pid,"index.js",process.ppid)
+

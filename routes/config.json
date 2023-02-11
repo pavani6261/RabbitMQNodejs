@@ -1,0 +1,30 @@
+{
+    "1": {
+        "connectionName": "amqps://fdqmauic:jdUuCFJnnnQNw9WVDbHb9dHrhqYgeDp3@campbell.lmq.cloudamqp.com/fdqmauic",
+        "queueName": "customerqueue",
+        "redirectUrl": "http://localhost:3001/users", 
+        "programName": "consumeQueue4.js",
+        "logfileName":"consumerQueue4.log"
+    },
+    "2": {
+        "connectionName": "amqps://fdqmauic:jdUuCFJnnnQNw9WVDbHb9dHrhqYgeDp3@campbell.lmq.cloudamqp.com/fdqmauic",
+        "queueName": "savingqueue",
+        "redirectUrl": "http://dummyjson.com/products?limit=3",
+        "programName": "consumeQueue5.js",
+        "logfileName":"consumerQueue5.log"
+    },
+    "3": {
+        "connectionName": "amqps://fdqmauic:jdUuCFJnnnQNw9WVDbHb9dHrhqYgeDp3@campbell.lmq.cloudamqp.com/fdqmauic",
+        "queueName": "loanqueue",
+        "redirectUrl": "http://192.168.43.171:3001/",
+        "programName": "consumeQueue6.js",
+        "logfileName":"consumerQueue6.log"
+    },
+    "4": {
+        "connectionName": "amqps://fdqmauic:jdUuCFJnnnQNw9WVDbHb9dHrhqYgeDp3@campbell.lmq.cloudamqp.com/fdqmauic",
+        "queueName": "emiqueue",
+        "redirectUrl": "http://localhost:3001/users",
+        "programName": "consumeQueue7.js",
+        "logfileName":"consumerQueue7.log"
+    }
+}

@@ -1,99 +1,35 @@
-const amqp = require('amqplib');
+const amqpconn = require('./baseClass');
 const axios = require('axios');
+const {logfiles,logger} =require('../log4');
 
-console.log("from consumeQueue6.js file",process.pid);
-var data = process.argv;
+var result = amqpconn.extractValues(process.argv);  // arguments coming from readconfig file
 
-// console.log(data)
+logfiles(result[4]);
+logger.info(`from ${result[3]} file with process Id ${process.pid} \r\n`);
 
-var temp = data.slice(2);
-console.log(temp);
-var result = temp[0].split(',');
-console.log(result[0]);
-async function connect(result){
-   try{
-    const connection = await amqp.connect(
-        `${result[0]}`
-    );
-    const channel = await connection.createChannel();
-    const check = await channel.assertQueue(result[2]);
-    channel.prefetch(1);
-    channel.consume(result[2], (message) => {
-    
-        var receive = JSON.parse(message.content.toString())
-    
-        console.log(`Received: ${receive}`)
-         axios.get(result[1])
-        .then((res)=>{
-            console.log(res.data);
+
+process.send([process.pid,result[3]]) //sending pid to parent module
+
+amqpconn.connect(result[0]).then(async (ch) => {
+
+    try {
+        const check = await ch.assertQueue(result[2]);
+        ch.prefetch(1);
+        ch.consume(result[2], (message) => {
+            var receive = JSON.parse(message.content.toString())
+
+            logger.info( "recevied : \r\n" + JSON.stringify(receive) + '\r\n');
+
+            logger.info( ` [x] Done  \r\n`);
+            ch.ack(message);
+
         })
-        process.send(`ok from ${result[3]}`);
-    
-            console.log(" [x] Done");
-            channel.ack(message);
+    }
+    catch (error) {
+        logger.fatal(`Error: ${error}`)
+    }
+})
 
-    })
-    
-   }
-   catch(err){
-    console.log(err,"7");
-   }
-}
-
-connect(result);
-
-
-
-
-// const  {Consumer} = require('./temp')
-// class Cls extends Consumer(){
-//     name;
-// }
-
-// console.log("from consumeQueue6.js file");
-// var data = process.argv;
-
-// console.log(data)
-
-// var temp = data.slice(2);
-// // console.log(temp);
-// var result1 = temp[0].split(',');
-// console.log(result1);
-
-// var conn = new Cls(result1);
-// // conn.result = result1;
-
-// console.log(conn.connect(conn.result));
-
-
-// async function connect(result){
-//    try{
-//     const connection = await amqp.connect(
-//         `${result[0]}`
-//     );
-//     const channel = await connection.createChannel();
-//     const check = await channel.assertQueue(result[2]);
-//     channel.prefetch(1);
-//     channel.consume(result[2], (message) => {
-    
-//         var receive = JSON.parse(message.content.toString())
-    
-//         console.log(`Received: ${receive}`)
-//          axios.get(result[1])
-//         .then((res)=>{
-//             console.log(res.data);
-//         })
-//         process.send(`ok from ${result[3]}`);
-    
-//             console.log(" [x] Done");
-//             channel.ack(message);
-
-//     })
-    
-//    }
-//    catch(err){
-//     console.log(err,"4");
-//    }
-// }
-
-// connect(result);
+process.on('SIGHUP', () => {
+    process.exit(() => console.log(`${__filename}  closed!`))
+  })
