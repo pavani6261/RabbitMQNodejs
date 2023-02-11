@@ -5,8 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 var readConfig = require('./routes/readConfig');
 
 var app = express();
@@ -27,9 +25,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/readConfig', readConfig);
 
 
@@ -51,10 +46,10 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports.currentfile =async (filename)=>{  //to get file name from file path
+module.exports.currentfile =async (filename)=>{  /*to get file name from file path*/
   return path.basename(filename);
 }
 
 
-console.log(process.pid,"app.js",process.ppid,"ppid")
+console.log(process.pid,"app.js");
 module.exports = app;

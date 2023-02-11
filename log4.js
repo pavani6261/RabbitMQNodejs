@@ -28,7 +28,7 @@ logfiles = function logfiles(file=''){
               },
               everything: {
                 type: "file",  
-                filename: "all-the-logs_maxsize_100.log", /*filename - the path of the file where you want your logs written.*/
+                filename: "all-the-logs.log", /*filename - the path of the file where you want your logs written.*/
 
                 maxLogSize: 1000000,  /* maxLogSize - integer (optional, defaults to undefined) - the maximum size (in bytes) for the log file. If not specified or 0, then no log rolling will happen. 
                                         maxLogSize can also accept string with the size suffixes: K, M, G such as 1K, 1M, 1G.*/
@@ -64,7 +64,7 @@ logfiles = function logfiles(file=''){
           },
           everything: {
             type: "file",  
-            filename: "all-the-logs_maxsize_100.log", /*filename - the path of the file where you want your logs written.*/
+            filename: "all-the-logs.log", /*filename - the path of the file where you want your logs written.*/
 
             maxLogSize: 1000000,  /* maxLogSize - integer (optional, defaults to undefined) - the maximum size (in bytes) for the log file. If not specified or 0, then no log rolling will happen. 
                                     maxLogSize can also accept string with the size suffixes: K, M, G such as 1K, 1M, 1G.*/
@@ -75,7 +75,7 @@ logfiles = function logfiles(file=''){
           },
         },
           categories: {
-          default: { appenders: ['console', 'dateFile'], level: "info" },
+          default: { appenders: ['console', 'dateFile'], level: "debug" },
           app : { appenders : ['everything'], level: "debug"}
         }
       });

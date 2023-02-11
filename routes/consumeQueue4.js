@@ -3,32 +3,29 @@ const amqp = require('amqplib');
 const axios = require('axios');
 const {logger,logfiles} = require('../log4');
 
-// var filename = './output/consumerqueue4.log';
-
-var result = amqpconn.extractValues(process.argv);  // arguments coming from readconfig file
-
+const result = amqpconn.extractValues(process.argv);  /** arguments coming from readconfig file */
 
 logfiles(result[4])
 
-//works as console.log into a log file
+/*works as console.log into a log file*/
 logger.info( `from ${result[4]} file with process Id ${process.pid} \r\n`);
-logger.warn("from  -category app ");
-process.send([process.pid,result[3]])  //sending pid to parent module
+
+process.send([process.pid,result[3]])  /**sending pid to parent module or file */
 
 amqpconn.connect(result[0]).then(async (channel) => {
     try {
 
-        // assertQueue checks for given queue name, if it doesn't exist then it will create one.
+        /** assertQueue checks for given queue name, if it doesn't exist then it will create one. */
         const check = await channel.assertQueue(result[2]);
 
-        channel.prefetch(1);    //to get only one message at a time 
+        channel.prefetch(1);    /** to get only one message at a time  */
 
         channel.consume(result[2], (message) => {
 
             var receive = JSON.parse(message.content.toString());
             logger.info("recevied : \r\n" + JSON.stringify(receive) + '\r\n');
 
-            //insert your logic 
+            /** insert your logic  */
 
             logger.info( ` [x] Done  \r\n`);
 
@@ -47,4 +44,4 @@ amqpconn.connect(result[0]).then(async (channel) => {
 })
 
 
-console.log(process.pid,"que 4",process.ppid,"ppid")
+// console.log(process.pid,"que 4",process.ppid,"ppid")

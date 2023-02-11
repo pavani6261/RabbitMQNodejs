@@ -1,15 +1,14 @@
-const amqp = require('amqplib');
-const axios = require('axios');
+
 const amqpconn = require('./baseClass');
 const {logfiles,logger} =require('../log4');
 
-var result = amqpconn.extractValues(process.argv);  // arguments coming from readconfig file
+const result = amqpconn.extractValues(process.argv);  /** arguments coming from readconfig file */
 
 logfiles(result[4])
 
 logger.info( `from ${result[3]} file with process Id ${process.pid} \r\n`);
 
-process.send([process.pid,result[3]]) //sending pid to parent module
+process.send([process.pid,result[3]]) /** sending pid to parent module */
 
 amqpconn.connect(result[0]).then(async (ch) => {
 
@@ -21,6 +20,7 @@ amqpconn.connect(result[0]).then(async (ch) => {
 
             logger.info( "recevied : \r\n" + JSON.stringify(receive) + '\r\n');
 
+                        /** insert your logic  */
             logger.info(f` [x] Done  \r\n`);
             ch.ack(message);
 
