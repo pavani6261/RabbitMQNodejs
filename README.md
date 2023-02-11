@@ -10,9 +10,10 @@ In Which each object has –
 In route/readconfig.js
 
 ## routeconfig.js file 
-reads the config file and store the data in a variable (data1[])
+reads the config file and store the data in a variable (data1[]),
 loop through the variable (data1) and starts executing the listener files with given programname (data1[0].programName) and 
 passess connectionName,queueName,programName,logfilename to thelistener file as process arguments.
+
 In listener file:
   store the process variables in a variable (result[]).
   connects to cloudamqp using connectionName
@@ -22,77 +23,34 @@ In listener file:
  
 if there are one or more objects in the config file this program will start all the files at a time
 
+we can also start one single listener program or stop a single listener program 
+
 •	Api to start all process 
 o	Method – Get
 o	Url – http://localhost:3000/readConfig/all
-o	Response – 
-{ 
-"data": [
-        {
-            "connectionName": "amqps://fdqmauic:jdUuCFJnnnQNw9WVDbHb9dHrhqYgeDp3@campbell.lmq.cloudamqp.com/fdqmauic",
-            "redirectUrl": "http://localhost:3001/users",
-            "queueName": "customerqueue",
-            "programName": "consumeQueue4.js",
-            "logfileName": "consumerQueue4.log"
-        },]
-}
+
 
 
 •	Api to get all process id’s  of consumer file which are running
 o	Method – get
 o	Url - http://localhost:3000/readConfig/pids
-o	Response – 
-{
-    "datatotal": [
-        {
-            "connectionName": "amqps://fdqmauic:jdUuCFJnnnQNw9WVDbHb9dHrhqYgeDp3@campbell.lmq.cloudamqp.com/fdqmauic",
-            "redirectUrl": "http://localhost:3001/users",
-            "queueName": "customerqueue",
-            "programName": "consumeQueue4.js",
-            "logfileName": "consumerQueue4.log",
-            "pid": 3640
-        },         
- ]
-}
 
 
-•	Api to terminate a particular process ( file which is running with processId/pid)
+
+•	Api to terminate a particular process ( listener file which is running with processId/pid)
 o	Method – post
-o	Url - localhost:3000/readConfig/exit
-o	Request – 
-  {
-    “pid” : 9140   //process id of consumer file
-  }
+o	Url - localhost:3000/readConfig/exit,  Request with pid - process id of listener file
 
-o	Response – 
-  {
-    				"pid": 9496,
-    				"status": "terminated"
-  }
 	
 	
-•	Api to start a particular file ( with file name )
+•	Api to start a particular file ( with listener file name )
 o	Method – Post
 o	Url - localhost:3000/readConfig/start
 o	Request – 
-{
-    "filename":"consumeQueue4.js"
-}
+	{
+    		"filename":"consumeQueue4.js"
+	}
 
-o	Response – 
-  {
-    "datavar": [
-        {
-            "connectionName": "amqps://fdqmauic:jdUuCFJnnnQNw9WVDbHb9dHrhqYgeDp3@campbell.lmq.cloudamqp.com/fdqmauic",
-            "redirectUrl": "http://localhost:3001/users",
-            "queueName": "customerqueue",
-            "programName": "consumeQueue4.js",
-            "logfileName": "consumerQueue4.log",
-            "pid": 12204
-        },
-    "status": "started",
-    "filename": "consumeQueue4.js"
-  }
 
 
 ##Create Cloudamqp Instance
