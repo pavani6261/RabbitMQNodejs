@@ -21,6 +21,7 @@ In listener file:
   if there is any message it will receive that message
  
 if there are one or more objects in the config file this program will start all the files at a time
+
 •	Api to start all process 
 o	Method – Get
 o	Url – http://localhost:3000/readConfig/all
@@ -35,6 +36,8 @@ o	Response –
             "logfileName": "consumerQueue4.log"
         },]
 }
+
+
 •	Api to get all process id’s  of consumer file which are running
 o	Method – get
 o	Url - http://localhost:3000/readConfig/pids
@@ -51,6 +54,8 @@ o	Response –
         },         
  ]
 }
+
+
 •	Api to terminate a particular process ( file which is running with processId/pid)
 o	Method – post
 o	Url - localhost:3000/readConfig/exit
@@ -64,6 +69,8 @@ o	Response –
     				"pid": 9496,
     				"status": "terminated"
   }
+	
+	
 •	Api to start a particular file ( with file name )
 o	Method – Post
 o	Url - localhost:3000/readConfig/start
